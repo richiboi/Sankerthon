@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
+import { Redirect } from "react-router";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import firebase from "./firebase";
+
 import ChallengeScreen from "./components/ChallengeScreen";
 import HomeScreen from "./components/HomeScreen";
-import { Redirect } from "react-router";
-
-import firebase from "./firebase";
+import QuestionScreen from "./components/questions/QuestionScreen";
 
 function App() {
   const [isLoggedIn, setisLoggedIn] = useState(null);
@@ -34,6 +35,7 @@ function App() {
           path="/challenge"
           render={(props) => <ChallengeScreen />}
         />
+        <Route exact path="/buzzer" render={(props) => <QuestionScreen />} />
       </Router>
     );
   }

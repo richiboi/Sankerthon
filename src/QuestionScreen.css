@@ -1,0 +1,129 @@
+
+.question-container {
+  width: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  position: absolute;
+  text-align: center;
+  border: rgb(186, 186, 186) solid 6px;
+  border-radius: 20px;
+}
+
+.question-box-container {
+  text-align: center;
+  background-color: rgb(250, 222, 112);
+  margin: 1.5em;
+  padding: 0.4em 2em 0.4em 2em;
+  height: 20%;
+  border-radius: 20px;
+  font-size: 2em;
+}
+
+.load-container {
+  width: 80%;
+  height: 80%;
+  top: 10%;
+  left: 10%;
+  background-color: rgb(235, 215, 132);
+  text-align: center;
+  vertical-align: middle;
+  display: flex;
+  position: fixed;
+  z-index: 7;
+}
+
+.load-container h1 {
+  margin: auto;
+  font-weight: normal;
+  font-size: 3em;
+}
+
+.answer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1em;
+  margin: 1em 3em 3em 3em;
+}
+
+.answer-box {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(250, 240, 170);
+  border-radius: 20px;
+  padding: 0.2em 0em;
+  font-size: 1.4em;
+}
+
+.answer-box:hover {
+  background-color: rgb(216, 199, 72);
+  cursor: pointer;
+}
+
+
+.timer-container {
+  width: 100px;
+  height: 100px;
+  position: fixed;
+  background-color: rgb(250, 222, 112);
+  border-radius: 50%;
+  margin: 50px;
+  text-align: center;
+  top: 0;
+  left: 0;
+  vertical-align: middle;
+  display: flex;
+  flex-direction: column;
+}
+
+.timer-container p {
+  margin: auto;
+  font-size: 2em;
+}
+
+.score-container {
+  width: 120px;
+  height: 80px;
+  position: fixed;
+  background-color: rgb(192, 250, 112);
+  border-radius: 30px;
+  margin: 50px;
+  text-align: center;
+  top: 0;
+  right: 0;
+  vertical-align: middle;
+  display: flex;
+  flex-direction: column;
+}
+
+.score-container p {
+  margin: auto;
+  font-size: 2em;
+}
+
+.next-button {
+  position: relative;
+  margin: -5.5em 1em -1em 1em;
+  top: .5em;
+  color: #ffffff;
+  background: #ffffff;
+  padding: 0.5em 3em;
+  border: 4px solid #20bf6b ;
+  background-color: rgb(23, 201, 100);
+  border-radius: 6px;
+  display: inline-block;
+  transition: all 0.3s ease 0s;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.next-button:hover {
+  border-radius: 50px;
+  background-color: rgb(16, 179, 87);
+  border-color: rgb(8, 82, 40);
+  transition: all 0.4s ease 0s;
+  cursor: pointer;
+}
