@@ -50,6 +50,12 @@ export default function QuestionScreen() {
     setCurrIndex(currIndex + 1);
     setTimeCounter(60);
     setStartTime(new Date().getTime());
+
+    console.log(currIndex)
+    //If complete
+    if (currIndex+1 >= questions.length) {
+      uploadQuestionStatus()
+    }
   };
 
   const selectAnswer = (answer) => {
@@ -81,15 +87,15 @@ export default function QuestionScreen() {
     const uid = firebase.auth().currentUser.uid;
     let questionDataColRef = db.collection(`/Users/${uid}/question_data/`);
 
-    questionStatus.forEach((question) => {
+    let promises = questionStatus.map(async (question) => {
       let questionRef = questionDataColRef.doc(
         `${category}_${question.question_num}`
       );
-      await questionRef.set(question);
-      console.log("Success!");
+      return await questionRef.set(question);
+      
     });
 
-    console.log('Everything uploaded!')
+    await Promise.all(promises)
     setIsUploading(false)
   };
 
@@ -100,7 +106,6 @@ export default function QuestionScreen() {
       </div>
     );
   } else if (currIndex === questions.length) {
-    uploadQuestionStatus();
     return (
       <div>
         {isUploading ? (
@@ -129,7 +134,8 @@ export default function QuestionScreen() {
           selectAnswer,
         }}
       >
-        <div>
+        <div className='container'>
+          <h1>BUZZER ROUND</h1>
           <Timer />
           <ScoreCounter />
 

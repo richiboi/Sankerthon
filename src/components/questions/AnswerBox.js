@@ -24,11 +24,7 @@ export default function AnswerBox({ answer }) {
   }, [isQuestionComplete]);
 
   const onClick = () => {
-
-    // if not correct then change bg to red
     answer !== questions[currIndex].correctAnswer && setBackgroundColor("#FF3519")
-
-    //Send select answer on the main loop
     selectAnswer(answer)
   }
 

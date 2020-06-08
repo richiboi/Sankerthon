@@ -1,15 +1,29 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
+import "./../ChallengeScreen.css";
 
 export default function ChallengeScreen() {
   return (
-    <div>
-      <h1>Challenge screen</h1>
-      <Link to="/buzzer">Buzzer questions</Link>
-      <br/>
-      <Link to="/quiz">Quiz questions</Link>
-      <br/>
-      <Link to="/make24">Make 24 questions</Link>
+    <div className="window-container">
+      <h4 id="above-sankerthon">Welcome to the</h4>
+      <h1 id="sankerthon">Sankerthon</h1>
+      <ul className="category-links">
+        <li>
+          <Link to="/buzzer">
+            <span>Buzzer questions</span>
+          </Link>
+        </li>
+        <li>
+          <Link to="/quiz">
+            <span>Quiz questions</span>
+          </Link>
+        </li>
+        <li>
+          <Link to="/make24">
+            <span>Make 24 questions</span>
+          </Link>
+        </li>
+      </ul>
     </div>
-  )
+  );
 }
