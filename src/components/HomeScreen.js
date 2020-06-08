@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import firebase from "firebase";
-import { Redirect } from "react-router";
 
 export default function HomeScreen() {
   const uiConfig = {

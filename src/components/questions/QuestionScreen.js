@@ -19,11 +19,12 @@ export default function QuestionScreen() {
   const [isQuestionComplete, setIsQuestionComplete] = useState(false);
   const [timeCounter, setTimeCounter] = useState(60);
   const [startTime, setStartTime] = useState(new Date().getTime());
-  const [score, setScore] = useState(0)
+  const [score, setScore] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
 
   const category = "buzzer";
 
-  //Hook to load questions from database. Sets loaded to true
+  //Hook to load questions from database, and get uid. Sets loaded to true
   useEffect(() => {
     (async () => {
       const questionSnapshot = await db
@@ -51,6 +52,47 @@ export default function QuestionScreen() {
     setStartTime(new Date().getTime());
   };
 
+  const selectAnswer = (answer) => {
+    const timeTaken = new Date().getTime() - startTime;
+    const isCorrect = answer === questions[currIndex].correctAnswer;
+    const newScore = isCorrect ? calculateScore(timeTaken) : 0;
+
+    setQuestionStatus([
+      ...questionStatus,
+      {
+        correct: isCorrect,
+        score: newScore,
+        time_taken: timeTaken,
+        answer_picked: answer,
+        category,
+        question_num: questions[currIndex].question_num,
+      },
+    ]);
+    setScore(score + newScore);
+    setIsQuestionComplete(true);
+  };
+
+  const calculateScore = (time) => {
+    return Math.floor(700 * Math.exp(-time / 25000) + 500);
+  };
+
+  const uploadQuestionStatus = async () => {
+    setIsUploading(true)
+    const uid = firebase.auth().currentUser.uid;
+    let questionDataColRef = db.collection(`/Users/${uid}/question_data/`);
+
+    questionStatus.forEach((question) => {
+      let questionRef = questionDataColRef.doc(
+        `${category}_${question.question_num}`
+      );
+      await questionRef.set(question);
+      console.log("Success!");
+    });
+
+    console.log('Everything uploaded!')
+    setIsUploading(false)
+  };
+
   if (!isLoaded) {
     return (
       <div className="load-container">
@@ -58,10 +100,14 @@ export default function QuestionScreen() {
       </div>
     );
   } else if (currIndex === questions.length) {
-    console.log(questionStatus);
+    uploadQuestionStatus();
     return (
       <div>
-        <h1>Thanks for competing in the Sankerthon!</h1>
+        {isUploading ? (
+          <h1>Uploading...</h1>
+        ) : (
+          <h1>Thanks for competing in the Sankerthon!</h1>
+        )}
       </div>
     );
   } else {
@@ -79,7 +125,8 @@ export default function QuestionScreen() {
           setTimeCounter,
           startTime,
           score,
-          setScore
+          setScore,
+          selectAnswer,
         }}
       >
         <div>

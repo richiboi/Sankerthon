@@ -4,14 +4,9 @@ import { QuestionContext } from "./QuestionContext";
 export default function AnswerBox({ answer }) {
   const {
     isQuestionComplete,
-    setIsQuestionComplete,
     questions,
     currIndex,
-    questionStatus,
-    setQuestionStatus,
-    startTime,
-    score,
-    setScore,
+    selectAnswer
   } = useContext(QuestionContext);
 
   const [pointerEvents, setPointerEvents] = useState("auto");
@@ -28,35 +23,19 @@ export default function AnswerBox({ answer }) {
     }
   }, [isQuestionComplete]);
 
-  const selectAnswer = () => {
-    const timeTaken = new Date().getTime() - startTime;
-    const isCorrect = answer === questions[currIndex].correctAnswer
-    const newScore = isCorrect ? calculateScore(timeTaken) : 0
+  const onClick = () => {
 
-    setQuestionStatus([
-      ...questionStatus,
-      {
-        correct: isCorrect,
-        score: newScore,
-        time_taken: timeTaken,
-        answer_picked: answer,
-      },
-    ]);
+    // if not correct then change bg to red
+    answer !== questions[currIndex].correctAnswer && setBackgroundColor("#FF3519")
 
-    setScore(score + newScore)
-
-    !isCorrect && setBackgroundColor("#FF3519") // if not correct then change bg to red
-    setIsQuestionComplete(true);
-  };
-
-  const calculateScore = (time) => {
-    return Math.floor(700 * Math.exp(-time / 25000) + 500);
-  };
+    //Send select answer on the main loop
+    selectAnswer(answer)
+  }
 
   return (
     <div
       className="answer-box"
-      onClick={selectAnswer}
+      onClick={onClick}
       style={{ pointerEvents, backgroundColor }}
     >
       <p>{answer}</p>
