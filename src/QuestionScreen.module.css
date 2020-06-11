@@ -176,6 +176,7 @@ box-shadow: 6px 6px 50px -5px;;
 .answerForm input[type=submit] {
   background-color: greenyellow;
   border-radius: 30px;
+  border: 1px red solid;
   order: 2;
 }
 .answerForm input[type=submit]:hover:enabled {
