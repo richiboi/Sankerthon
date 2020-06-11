@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { QuestionContext } from "./QuestionContext";
+import styles from "./../../QuestionScreen.module.css";
 
 export default function AnswerBox({ answer }) {
   const {
@@ -7,7 +8,6 @@ export default function AnswerBox({ answer }) {
     questions,
     currIndex,
     selectAnswer,
-    styles
   } = useContext(QuestionContext);
 
   const [pointerEvents, setPointerEvents] = useState("auto");

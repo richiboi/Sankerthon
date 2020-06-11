@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import styles from "./../../QuestionScreen.module.css";
 import firebase from "./../../firebase";
+import styles from "./../../QuestionScreen.module.css";
 
 import Timer from "./Timer";
 import ScoreCounter from "./ScoreCounter";
@@ -135,7 +135,6 @@ export default function QuestionScreen() {
           setScore,
           selectAnswer,
           maxTime,
-          styles
         }}
       >
         <div className={styles.container}>

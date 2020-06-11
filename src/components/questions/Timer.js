@@ -1,13 +1,13 @@
 import React, { useContext, useEffect } from "react";
 import { QuestionContext } from "./QuestionContext";
+import styles from "./../../QuestionScreen.module.css";
 
 export default function Timer() {
   const {
     timeCounter,
     setTimeCounter,
     isQuestionComplete,
-    selectAnswer,
-    styles
+    selectAnswer
   } = useContext(QuestionContext);
 
   //Timer logic
