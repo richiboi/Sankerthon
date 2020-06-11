@@ -6,12 +6,13 @@ import Timer from "./Timer";
 import ScoreCounter from "./ScoreCounter";
 import QuestionBox from "./QuestionBox";
 import AnswerBoxGrid from "./AnswerBoxGrid";
+import QuizInput from "./QuizInput";
 
 import { QuestionContext } from "./QuestionContext";
 
 const db = firebase.firestore();
 
-export default function QuestionScreen() {
+export default function QuestionScreen({ category, isBuzzer }) {
   const [questions, setQuestions] = useState([]);
   const [questionStatus, setQuestionStatus] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -20,28 +21,33 @@ export default function QuestionScreen() {
   const [startTime, setStartTime] = useState(new Date().getTime());
   const [score, setScore] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
-  const [maxTime] = useState(10)
+  const [maxTime] = useState(10);
   const [timeCounter, setTimeCounter] = useState(100);
-
-  const category = "buzzer";
 
   //Hook to load questions from database, and get uid. Sets loaded to true
   useEffect(() => {
     (async () => {
+      //Get questions
       const questionSnapshot = await db
         .collection("Questions")
         .where("category", "==", category)
         .get();
       setQuestions(
         questionSnapshot.docs.map((doc) => {
-          let question = {
-            ...doc.data(),
-            correctAnswer: doc.data().answers[0],
-          };
-          shuffleArray(question.answers);
-          return question;
+          if (isBuzzer) {
+            let question = {
+              ...doc.data(),
+              correctAnswer: doc.data().answers[0],
+            };
+            shuffleArray(question.answers);
+            return question;
+          } else {
+            return doc.data();
+          }
         })
       );
+
+      //Set loaded and the maxTime counter
       setIsLoaded(true);
       setTimeCounter(maxTime);
     })();
@@ -50,19 +56,22 @@ export default function QuestionScreen() {
   const nextQuestion = () => {
     setIsQuestionComplete(false);
     setCurrIndex(currIndex + 1);
-    setTimeCounter(60);
+    setTimeCounter(maxTime);
     setStartTime(new Date().getTime());
 
-    console.log(currIndex)
+    console.log(currIndex);
     //If complete
-    if (currIndex+1 >= questions.length) {
-      uploadQuestionStatus()
+    if (currIndex + 1 >= questions.length) {
+      uploadQuestionStatus();
     }
   };
 
   const selectAnswer = (answer) => {
+    const isCorrect = isBuzzer
+      ? answer === questions[currIndex].correctAnswer
+      : questions[currIndex].answers.includes(answer);
+
     const timeTaken = new Date().getTime() - startTime;
-    const isCorrect = answer === questions[currIndex].correctAnswer;
     const newScore = isCorrect ? calculateScore(timeTaken) : 0;
 
     setQuestionStatus([
@@ -85,7 +94,7 @@ export default function QuestionScreen() {
   };
 
   const uploadQuestionStatus = async () => {
-    setIsUploading(true)
+    setIsUploading(true);
     const uid = firebase.auth().currentUser.uid;
     let questionDataColRef = db.collection(`/Users/${uid}/question_data/`);
 
@@ -94,11 +103,10 @@ export default function QuestionScreen() {
         `${category}_${question.question_num}`
       );
       return await questionRef.set(question);
-      
     });
 
-    await Promise.all(promises)
-    setIsUploading(false)
+    await Promise.all(promises);
+    setIsUploading(false);
   };
 
   if (!isLoaded) {
@@ -138,19 +146,25 @@ export default function QuestionScreen() {
         }}
       >
         <div className={styles.container}>
-          <h1>BUZZER ROUND</h1>
+          <h1>{isBuzzer ? "BUZZER ROUND" : "QUIZ ROUND"}</h1>
           <Timer />
           <ScoreCounter />
 
           <div className={styles.questionContainer}>
             <QuestionBox str={questions[currIndex].html_str} />
-            <AnswerBoxGrid answers={questions[currIndex].answers} />
-            {isQuestionComplete && (
-              <button className={styles.nextButton} onClick={nextQuestion}>
-                Next
-              </button>
+            {isBuzzer ? (
+              <AnswerBoxGrid answers={questions[currIndex].answers} />
+            ) : (
+              <QuizInput />
             )}
           </div>
+          <button
+            className={styles.nextButton}
+            onClick={nextQuestion}
+            style={{ visibility: isQuestionComplete ? "visible" : "hidden" }}
+          >
+            Next
+          </button>
         </div>
       </QuestionContext.Provider>
     );

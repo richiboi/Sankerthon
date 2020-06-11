@@ -35,7 +35,20 @@ function App() {
           path="/challenge"
           render={(props) => <ChallengeScreen />}
         />
-        <Route exact path="/buzzer" render={(props) => <QuestionScreen />} />
+        <Route
+          exact
+          path="/buzzer"
+          render={(props) => (
+            <QuestionScreen category="buzzer" isBuzzer={true} />
+          )}
+        />
+        <Route
+          exact
+          path="/quiz"
+          render={(props) => (
+            <QuestionScreen category="quiz" isBuzzer={false} />
+          )}
+        />
       </Router>
     );
   }
