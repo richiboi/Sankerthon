@@ -17,10 +17,11 @@ export default function QuestionScreen() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [currIndex, setCurrIndex] = useState(0);
   const [isQuestionComplete, setIsQuestionComplete] = useState(false);
-  const [timeCounter, setTimeCounter] = useState(60);
   const [startTime, setStartTime] = useState(new Date().getTime());
   const [score, setScore] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
+  const [maxTime] = useState(10)
+  const [timeCounter, setTimeCounter] = useState(100);
 
   const category = "buzzer";
 
@@ -42,6 +43,7 @@ export default function QuestionScreen() {
         })
       );
       setIsLoaded(true);
+      setTimeCounter(maxTime);
     })();
   }, []);
 
@@ -132,6 +134,7 @@ export default function QuestionScreen() {
           score,
           setScore,
           selectAnswer,
+          maxTime
         }}
       >
         <div className='container'>

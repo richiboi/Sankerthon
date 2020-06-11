@@ -6,7 +6,8 @@ export default function Timer() {
     timeCounter,
     setTimeCounter,
     isQuestionComplete,
-    setIsQuestionComplete,
+    selectAnswer,
+    maxTime
   } = useContext(QuestionContext);
 
   //Timer logic
@@ -17,8 +18,7 @@ export default function Timer() {
         setInterval(() => setTimeCounter(timeCounter - 1), 1000);
       if (timeCounter === 0) {
         console.log("times up");
-        setIsQuestionComplete(true);
-        setTimeCounter(60)
+        selectAnswer(null)
       }
       return () => clearInterval(timer);
     }
