@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./../../QuestionScreen.css";
+import styles from "./../../QuestionScreen.module.css";
 import firebase from "./../../firebase";
 
 import Timer from "./Timer";
@@ -103,7 +103,7 @@ export default function QuestionScreen() {
 
   if (!isLoaded) {
     return (
-      <div className="load-container">
+      <div className={styles.loadContainer}>
         <h1>Fetching questions</h1>
       </div>
     );
@@ -134,19 +134,20 @@ export default function QuestionScreen() {
           score,
           setScore,
           selectAnswer,
-          maxTime
+          maxTime,
+          styles
         }}
       >
-        <div className='container'>
+        <div className={styles.container}>
           <h1>BUZZER ROUND</h1>
           <Timer />
           <ScoreCounter />
 
-          <div className="question-container">
+          <div className={styles.questionContainer}>
             <QuestionBox str={questions[currIndex].html_str} />
             <AnswerBoxGrid answers={questions[currIndex].answers} />
             {isQuestionComplete && (
-              <button className="next-button" onClick={nextQuestion}>
+              <button className={styles.nextButton} onClick={nextQuestion}>
                 Next
               </button>
             )}

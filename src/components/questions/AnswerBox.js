@@ -6,7 +6,8 @@ export default function AnswerBox({ answer }) {
     isQuestionComplete,
     questions,
     currIndex,
-    selectAnswer
+    selectAnswer,
+    styles
   } = useContext(QuestionContext);
 
   const [pointerEvents, setPointerEvents] = useState("auto");
@@ -30,7 +31,7 @@ export default function AnswerBox({ answer }) {
 
   return (
     <div
-      className="answer-box"
+      className={styles.answerBox}
       onClick={onClick}
       style={{ pointerEvents, backgroundColor }}
     >

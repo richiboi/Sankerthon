@@ -7,7 +7,7 @@ export default function Timer() {
     setTimeCounter,
     isQuestionComplete,
     selectAnswer,
-    maxTime
+    styles
   } = useContext(QuestionContext);
 
   //Timer logic
@@ -25,7 +25,7 @@ export default function Timer() {
   }, [timeCounter, isQuestionComplete]);
 
   return (
-    <div className="timer-container">
+    <div className={styles.timerContainer}>
       <p>{timeCounter}</p>
     </div>
   );

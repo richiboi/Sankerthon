@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { QuestionContext } from "./QuestionContext";
 
 export default function QuestionBox({ str }) {
-  const { questionStatus, isQuestionComplete, maxTime } = useContext(QuestionContext);
+  const { questionStatus, isQuestionComplete, maxTime, styles } = useContext(QuestionContext);
 
   const msgs = {
     correct: ["You go!", "Great job!", "Ms. Sanker's proud!", "How Sankerful!"],
@@ -24,7 +24,7 @@ export default function QuestionBox({ str }) {
     }
     
     return (
-      <div className="question-box-container" style={{ backgroundColor }}>
+      <div className={styles.questionBoxContainer} style={{ backgroundColor }}>
         <h4>{msg}</h4>
         <h1>
           {isCorrect ? "+" : ""}
@@ -34,7 +34,7 @@ export default function QuestionBox({ str }) {
     );
   } else {
     return (
-      <div className="question-box-container">
+      <div className={styles.questionBoxContainer}>
         <h3>{str}</h3>
       </div>
     );
