@@ -95,6 +95,8 @@ export default function QuestionScreen({ category, isBuzzer }) {
 
   const uploadQuestionStatus = async () => {
     setIsUploading(true);
+
+    //Upload the questiondata documents
     const uid = firebase.auth().currentUser.uid;
     let questionDataColRef = db.collection(`/Users/${uid}/question_data/`);
 
@@ -104,8 +106,15 @@ export default function QuestionScreen({ category, isBuzzer }) {
       );
       return await questionRef.set(question);
     });
-
     await Promise.all(promises);
+
+    //Update the aggregated User document
+    let userRef = db.doc(`/Users/${uid}`);
+    let scoreUpdate = {};
+    scoreUpdate[`category_scores.${category}`] = score;
+    console.log(scoreUpdate)
+    await userRef.update(scoreUpdate);
+
     setIsUploading(false);
   };
 
