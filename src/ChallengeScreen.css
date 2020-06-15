@@ -2,21 +2,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;800;900&display=swap");
 
 * {
-  font-family: "Montserrat";
+  font-family: "Roboto";
 }
 
 .challenge-wrapper {
   height: 100vh;
   width: 100vw;
   background: linear-gradient(to left, #679dcd, #4e54c8);
+  display: flex;
+  flex-direction: row;
 }
 
 .challenge-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   padding: 2em;
+  margin: 10vh 0 10vh 10vw;
   text-align: center;
   background: white;
   border-radius: 30px;
