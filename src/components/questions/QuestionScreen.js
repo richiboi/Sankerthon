@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import firebase from "./../../firebase";
 import styles from "./../../QuestionScreen.module.css";
 
-import Timer from "./Timer";
 import ScoreCounter from "./ScoreCounter";
 import QuestionBox from "./QuestionBox";
 import AnswerBoxGrid from "./AnswerBoxGrid";
 import QuizInput from "./QuizInput";
+import Timer from "./Timer";
+
+import shapesImg from "./../../img/bgshapes.svg"
 
 import { QuestionContext } from "./QuestionContext";
 
@@ -21,7 +23,7 @@ export default function QuestionScreen({ category, isBuzzer }) {
   const [startTime, setStartTime] = useState(new Date().getTime());
   const [score, setScore] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
-  const [maxTime] = useState(10);
+  const [maxTime] = useState(60);
   const [timeCounter, setTimeCounter] = useState(100);
 
   //Hook to load questions from database, and get uid. Sets loaded to true
@@ -112,7 +114,7 @@ export default function QuestionScreen({ category, isBuzzer }) {
     let userRef = db.doc(`/Users/${uid}`);
     let scoreUpdate = {};
     scoreUpdate[`category_scores.${category}`] = score;
-    console.log(scoreUpdate)
+    console.log(scoreUpdate);
     await userRef.update(scoreUpdate);
 
     setIsUploading(false);
@@ -154,27 +156,29 @@ export default function QuestionScreen({ category, isBuzzer }) {
           maxTime,
         }}
       >
-        <div className={styles.container}>
-          <h1>{isBuzzer ? "BUZZER ROUND" : "QUIZ ROUND"}</h1>
-          <Timer />
-          <ScoreCounter />
+        <h1 className={styles.roundHeader}>
+          {isBuzzer ? "Buzzer Round" : "Quiz Round"}
+        </h1>
+        <ScoreCounter />
+        <Timer />
 
-          <div className={styles.questionContainer}>
-            <QuestionBox str={questions[currIndex].html_str} />
-            {isBuzzer ? (
-              <AnswerBoxGrid answers={questions[currIndex].answers} />
-            ) : (
-              <QuizInput />
-            )}
-          </div>
+        <div className={styles.qnaContainer}>
+          <QuestionBox str={questions[currIndex].html_str} />
+
+          {isBuzzer ? (
+            <AnswerBoxGrid answers={questions[currIndex].answers} />
+          ) : (
+            <QuizInput />
+          )}
           <button
             className={styles.nextButton}
             onClick={nextQuestion}
-            style={{ visibility: isQuestionComplete ? "visible" : "hidden" }}
+            style={{ opacity: isQuestionComplete ? 1 : 0 }}
           >
             Next
           </button>
         </div>
+        <img src={shapesImg} className={styles.shapes}/>
       </QuestionContext.Provider>
     );
   }

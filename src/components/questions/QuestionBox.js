@@ -3,7 +3,7 @@ import { QuestionContext } from "./QuestionContext";
 import styles from "./../../QuestionScreen.module.css";
 
 export default function QuestionBox({ str }) {
-  const { questionStatus, isQuestionComplete, maxTime} = useContext(
+  const { questionStatus, isQuestionComplete, maxTime } = useContext(
     QuestionContext
   );
 
@@ -19,7 +19,7 @@ export default function QuestionBox({ str }) {
 
   if (isQuestionComplete) {
     const isCorrect = questionStatus[questionStatus.length - 1].score > 0;
-    const backgroundColor = isCorrect ? "#66CC00" : "#CD5555";
+    const background = isCorrect ? "#66CC00" : "#CD5555";
 
     let msg = pickRandom(isCorrect ? msgs.correct : msgs.wrong);
     if (
@@ -30,7 +30,7 @@ export default function QuestionBox({ str }) {
     }
 
     return (
-      <div className={styles.questionBoxContainer} style={{ backgroundColor }}>
+      <div style={{ background }} className={styles.questionContainer}>
         <h4>{msg}</h4>
         <h1>
           {isCorrect ? "+" : ""}
@@ -40,7 +40,7 @@ export default function QuestionBox({ str }) {
     );
   } else {
     return (
-      <div className={styles.questionBoxContainer}>
+      <div className={styles.questionContainer}>
         <h3>{str}</h3>
       </div>
     );

@@ -1,51 +1,13 @@
-.container {
-  text-align: center;
-  height: 100vh;
-  width: 100vw;
-  background: linear-gradient(-45deg, #42e18f, #2fc0da, #66bedd, #d0c773);
-  background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap");
+
+* {
+  font-family: Roboto;
   margin: 0;
   padding: 0;
-  position: absolute;
 }
 
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.questionContainer {
-  width: 50%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  position: absolute;
-  text-align: center;
-  border: rgb(186, 186, 186) solid 0px;
-  border-radius: 15px;
-  background: white;
-box-shadow: 6px 6px 50px -5px;;
-}
-
-.questionBoxContainer {
-  text-align: center;
-  background-color: rgb(250, 222, 112);
-  margin: 1.5em;
-  overflow: hidden;
-  padding: 0.1em 2em 0.1em 2em;
-  height: 20%;
-  border-radius: 10px;
-  font-size: 1.7em;
-}
-
+/* Needs a rework */
 .loadContainer {
   width: 80%;
   height: 80%;
@@ -65,85 +27,165 @@ box-shadow: 6px 6px 50px -5px;;
   font-size: 3em;
 }
 
-.answerGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 1em;
-  margin: 1em 3em 3em 3em;
-}
-
-.answerBox {
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgb(250, 240, 170);
-  border-radius: 20px;
-  padding: 0.2em 0em;
-  font-size: 1.4em;
-}
-
-.answerBox:hover {
-  background-color: rgb(216, 199, 72);
-  cursor: pointer;
-}
-
-.timerContainer {
-  width: 100px;
-  height: 100px;
-  position: fixed;
-  background-color: rgb(250, 222, 112);
-  border-radius: 50%;
-  margin: 50px;
-  text-align: center;
-  top: 0;
-  left: 0;
-  vertical-align: middle;
-  display: flex;
-  flex-direction: column;
-}
-
-.timerContainer p {
-  margin: auto;
+.roundHeader {
+  font-weight: 900;
+  position: absolute;
   font-size: 2em;
+  top: 60px;
+  left: 80px;
+  font-family: Montserrat;
 }
 
 .scoreContainer {
-  width: 120px;
-  height: 80px;
-  position: fixed;
-  background-color: rgb(192, 250, 112);
-  border-radius: 30px;
-  margin: 50px;
+  width: 150px;
+  height: 60px;
+  position: absolute;
+  top: 60px;
+  right: 80px;
   text-align: center;
-  top: 0;
-  right: 0;
-  vertical-align: middle;
-  display: flex;
-  flex-direction: column;
+  border: 3px solid #878787;
+  box-sizing: border-box;
+  border-radius: 13px;
+  background: white;
+  box-shadow: 0px 4px 26px rgba(0, 0, 0, 0.08);
 }
 
 .scoreContainer p {
+  font-weight: bold;
+  font-size: 1.7em;
+  padding: auto;
   margin: auto;
-  font-size: 2em;
+  line-height: 50px;
+}
+
+.qnaContainer {
+  margin: 0 auto;
+  width: 52vw;
+  min-width: 450px;
+  position: relative;
+  top: 26vh;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+.questionContainer {
+  text-align: center;
+  overflow: hidden;
+
+  padding: 1em;
+  min-height: 17vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  background: linear-gradient(267.93deg, #38b3da 0.17%, #5f42d6 99.86%);
+  box-shadow: 0px 4px 26px rgba(0, 0, 0, 0.18);
+  border-radius: 24px;
+  transition: all 1s ease-in-out;
+}
+
+.questionContainer h1,
+h3,
+h4 {
+  color: white;
+}
+
+.questionContainer h3 {
+  font-weight: 500;
+  font-size: 1.7em;
+  margin: auto;
+}
+
+.questionContainer h4 {
+  font-size: 1.7em;
+}
+
+.questionContainer h1 {
+  font-size: 4em;
+}
+
+.timerBase {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background-color: white;
+  border-radius: 50%;
+  top: calc(26vh - 40px);
+  right: calc(24vw - 40px);
+  z-index: 1;
+  border: 3px white solid;
+}
+
+.timerBaseSvg {
+  transform: scaleX(-1);
+  z-index: 3;
+}
+
+.timerBaseCircle {
+  fill: none;
+  stroke: none;
+  z-index: 2;
+}
+
+.timerBasePathElapsed {
+  stroke-width: 10px;
+  stroke: grey;
+  z-index: 7;
+}
+
+.timerBaseLabel {
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  top: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 20px;
+}
+
+.timerBasePathRemaining {
+  /* Just as thick as the original ring */
+  stroke-width: 10px;
+
+  /* Rounds the line endings to create a seamless circle */
+  stroke-linecap: round;
+
+  /* Makes sure the animation starts at the top of the circle */
+  transform: rotate(90deg);
+  transform-origin: center;
+
+  /* One second aligns with the speed of the countdown timer */
+  transition: 1s linear all;
+
+  /* Allows the ring to change color when the color value updates */
+  stroke: currentColor;
 }
 
 .nextButton {
   position: relative;
-  margin: -5.5em 1em -1em 1em;
-  top: 70vh;
+
+  width: 200px;
+  height: 60px;
+  line-height: 0;
+  margin: 1.2em auto auto auto;
+  padding: 0.8em 1.2em;
+
   color: #ffffff;
   background: #ffffff;
-  padding: 0.5em 3em;
   border: 4px solid #20bf6b;
   background-color: rgb(23, 201, 100);
   border-radius: 6px;
-  display: inline-block;
   transition: all 0.3s ease 0s;
   font-size: 1.5em;
   font-weight: bold;
-  box-shadow: 2px 2px 50px -10px black;
+  transition: all 0.4s ease 0s, opacity 1s ease-in-out 0.7s;
 }
 
 .nextButton:hover {
@@ -154,7 +196,47 @@ box-shadow: 6px 6px 50px -5px;;
   cursor: pointer;
 }
 
+.shapes {
+  position: fixed;
+  right: -20px;
+  bottom: -10px;
+  z-index: -5;
+}
 
+/* MCQ things */
+
+.answerGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1em;
+  margin-top: 2em;
+}
+
+.answerBox {
+  text-align: center;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1em 1.4em;
+  font-size: 1.3em;
+  font-weight: 300;
+
+  background: #ffffff;
+  border: 1px solid #cecece;
+
+  box-shadow: 0px 4px 26px rgba(0, 0, 0, 0.08);
+  border-radius: 24px;
+  transition: all 1s ease-in-out;
+}
+
+.answerBox:hover {
+  background-color: #adcbee;
+  cursor: pointer;
+}
+
+/* Input things */
 
 .inputContainer {
   margin: 1em;
@@ -169,7 +251,7 @@ box-shadow: 6px 6px 50px -5px;;
   align-content: center;
 }
 
-.answerForm input[type=text] {
+.answerForm input[type="text"] {
   order: 1;
 }
 
@@ -181,27 +263,27 @@ box-shadow: 6px 6px 50px -5px;;
   height: 40px;
   font-weight: bold;
   letter-spacing: 1px;
-  border: 3px solid #8C82FC;
+  border: 3px solid #8c82fc;
   background: #fff;
-  color: #8C82FC;
+  color: #8c82fc;
   border-radius: 40px;
   cursor: pointer;
   overflow: hidden;
-  transition: all .35s;
+  transition: all 0.35s;
 }
 
-.answerForm button:hover{
-  background: #8C82FC;
+.answerForm button:hover {
+  background: #8c82fc;
   color: #fff;
 }
 
-.answerForm button span{
+.answerForm button span {
   opacity: 1;
   visibility: visible;
-  transition: all .35s;
+  transition: all 0.35s;
 }
 
-.success{
+.success {
   position: inherit;
   width: 100%;
   height: 100%;
@@ -210,35 +292,35 @@ box-shadow: 6px 6px 50px -5px;;
   z-index: 1;
   opacity: 0;
   visibility: hidden;
-  transition: all .35s;
+  transition: all 0.35s;
 }
 
-.success svg{
+.success svg {
   margin: 0;
   width: 20px;
   height: 20px;
   fill: yellowgreen;
   transform-origin: 50% 50%;
   transform: translateY(-50%) rotate(0deg) scale(0);
-  transition: all .35s;
+  transition: all 0.35s;
 }
 
-.answerForm button.is_active{
+.answerForm button.is_active {
   width: 40px;
   height: 40px;
 }
 
-.answerForm button.is_active .success{
+.answerForm button.is_active .success {
   opacity: 1;
   visibility: visible;
 }
 
-.answerForm button.is_active .success svg{
+.answerForm button.is_active .success svg {
   margin-top: 50%;
   transform: translateY(-50%) rotate(720deg) scale(1);
 }
 
-.answerForm button.is_active span{
+.answerForm button.is_active span {
   opacity: 0;
   visibility: hidden;
 }
