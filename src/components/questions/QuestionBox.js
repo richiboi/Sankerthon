@@ -3,7 +3,7 @@ import { QuestionContext } from "./QuestionContext";
 import styles from "./../../QuestionScreen.module.css";
 
 export default function QuestionBox({ str }) {
-  const { questionStatus, isQuestionComplete, maxTime } = useContext(
+  const { questionStatus, isQuestionComplete, maxTime, isBuzzer } = useContext(
     QuestionContext
   );
 
@@ -19,9 +19,11 @@ export default function QuestionBox({ str }) {
 
   if (isQuestionComplete) {
     const isCorrect = questionStatus[questionStatus.length - 1].score > 0;
-    const background = isCorrect ? "#66CC00" : "#CD5555";
+    const background = isCorrect ? "#70B913" : "#CB2525";
 
     let msg = pickRandom(isCorrect ? msgs.correct : msgs.wrong);
+
+    //If times up
     if (
       questionStatus[questionStatus.length - 1].time_taken >=
       maxTime * 1000
@@ -39,8 +41,12 @@ export default function QuestionBox({ str }) {
       </div>
     );
   } else {
+    const background = isBuzzer
+      ? "linear-gradient(267.93deg, #38b3da 0.17%, #5f42d6 99.86%)"
+      : "linear-gradient(264.07deg, #EB6B35 0%, #B7D210 100%)";
+
     return (
-      <div className={styles.questionContainer}>
+      <div style={{background}} className={styles.questionContainer}>
         <h3>{str}</h3>
       </div>
     );

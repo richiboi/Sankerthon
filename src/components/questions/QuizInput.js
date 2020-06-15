@@ -24,26 +24,19 @@ export default function QuizInput() {
       <form onSubmit={submitAnswer} className={styles.answerForm}>
         <input
           type="text"
-          placeholder="Enter answer"
+          placeholder="Your answer here..."
           value={answerField}
+          id="answerInput"
           onChange={(e) => setAnswerField(e.target.value)}
           disabled={isQuestionComplete}
+          className={styles.answerInput}
         />
         <button
           type="submit"
           disabled={isQuestionComplete}
-          className={buttonClasses}
+          className={styles.submitBtn}
         >
-          <span>Submit</span>
-          <div className={styles.success}>
-            <svg
-              xmlnsXlink="http://www.w3.org/1999/xlink"
-              enableBackground="new 0 0 29.756 29.756"
-              viewBox="0 0 29.756 29.756"
-            >
-              <path d="M29.049 5.009l-.859-.858a2.434 2.434 0 00-3.434 0L10.172 18.737l-5.175-5.173a2.433 2.433 0 00-3.432.001l-.858.857a2.437 2.437 0 000 3.433l7.744 7.752a2.437 2.437 0 003.433 0L29.049 8.442a2.438 2.438 0 000-3.433z"></path>
-            </svg>
-          </div>
+          Submit
         </button>
       </form>
     </div>

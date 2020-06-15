@@ -8,7 +8,7 @@ import AnswerBoxGrid from "./AnswerBoxGrid";
 import QuizInput from "./QuizInput";
 import Timer from "./Timer";
 
-import shapesImg from "./../../img/bgshapes.svg"
+import shapesImg from "./../../img/bgshapes.svg";
 
 import { QuestionContext } from "./QuestionContext";
 
@@ -23,7 +23,7 @@ export default function QuestionScreen({ category, isBuzzer }) {
   const [startTime, setStartTime] = useState(new Date().getTime());
   const [score, setScore] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
-  const [maxTime] = useState(60);
+  const [maxTime] = useState(1600);
   const [timeCounter, setTimeCounter] = useState(100);
 
   //Hook to load questions from database, and get uid. Sets loaded to true
@@ -154,6 +154,7 @@ export default function QuestionScreen({ category, isBuzzer }) {
           setScore,
           selectAnswer,
           maxTime,
+          isBuzzer,
         }}
       >
         <h1 className={styles.roundHeader}>
@@ -173,12 +174,19 @@ export default function QuestionScreen({ category, isBuzzer }) {
           <button
             className={styles.nextButton}
             onClick={nextQuestion}
-            style={{ opacity: isQuestionComplete ? 1 : 0 }}
+            style={{
+              opacity: isQuestionComplete ? 1 : 0,
+              visibility: isQuestionComplete ? "visible" : "hidden",
+            }}
           >
             Next
           </button>
         </div>
-        <img src={shapesImg} className={styles.shapes}/>
+        <img
+          src={shapesImg}
+          className={styles.shapes}
+          style={{ filter: `hue-rotate(${isBuzzer ? "0" : "-120deg"})` }}
+        />
       </QuestionContext.Provider>
     );
   }
