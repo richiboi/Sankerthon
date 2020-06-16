@@ -12,17 +12,17 @@ export default function ChallengeScreen() {
         <ul className="category-links">
           <li>
             <Link to="/buzzer">
-              <span>Buzzer questions</span>
+              <span>Buzzer</span>
             </Link>
           </li>
           <li>
             <Link to="/quiz">
-              <span>Quiz questions</span>
+              <span>Quiz</span>
             </Link>
           </li>
           <li>
-            <Link to="/make24">
-              <span>Make 24 questions</span>
+            <Link to="/ooo">
+              <span>Odd one out</span>
             </Link>
           </li>
         </ul>

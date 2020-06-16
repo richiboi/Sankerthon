@@ -49,6 +49,13 @@ function App() {
             <QuestionScreen category="quiz" isBuzzerType={false} />
           )}
         />
+        <Route
+          exact
+          path="/ooo"
+          render={(props) => (
+            <QuestionScreen category="ooo" isBuzzerType={true} />
+          )}
+        />
       </Router>
     );
   }
