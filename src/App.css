@@ -1,0 +1,16 @@
+.whole-screen-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.whole-screen-container h1 {
+  font-weight: 300;
+  font-size: 2em;
+}

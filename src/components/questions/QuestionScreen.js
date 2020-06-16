@@ -7,6 +7,7 @@ import QuestionBox from "./QuestionBox";
 import AnswerBoxGrid from "./AnswerBoxGrid";
 import QuizInput from "./QuizInput";
 import Timer from "./Timer";
+import LoadingScreen from "./../LoadingScreen"
 
 import shapesImg from "./../../img/bgshapes.svg";
 
@@ -142,9 +143,7 @@ export default function QuestionScreen({ category, isBuzzerType }) {
 
   if (!isLoaded) {
     return (
-      <div className={styles.loadContainer}>
-        <h1>Fetching questions</h1>
-      </div>
+      <LoadingScreen />
     );
   } else if (currIndex === questions.length) {
     return (

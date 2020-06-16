@@ -3,6 +3,7 @@ import firebase from "./../firebase";
 import { Link } from "react-router-dom";
 import "./../ChallengeScreen.css";
 import Leaderboard from "./leaderboard/Leaderboard";
+import LoadingScreen from "./LoadingScreen"
 
 const db = firebase.firestore();
 
@@ -24,6 +25,7 @@ export default function ChallengeScreen() {
         categoryScores[category] = categoryScores[category] !== null;
       }
     }
+    categoryScores.allFinished = userDataDoc.data().total_score !== null;
     console.log(categoryScores);
 
     setCategoryComplete(categoryScores);
@@ -31,7 +33,7 @@ export default function ChallengeScreen() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingScreen/>
   }
 
   return (
@@ -40,17 +42,21 @@ export default function ChallengeScreen() {
         <h4 id="above-sankerthon">Welcome to the</h4>
         <h1 id="sankerthon">Sankerthon</h1>
         <ul className="category-links">
-          <li className={categoryComplete.buzzer? "disable-challenge" : ''}>
+          <li className={categoryComplete.buzzer ? "disable-challenge" : ""}>
             <Link to="/buzzer">Buzzer</Link>
           </li>
-          <li className={categoryComplete.quiz? "disable-challenge" : ''}>
+          <li className={categoryComplete.quiz ? "disable-challenge" : ""}>
             <Link to="/quiz">Quiz</Link>
           </li>
-          <li className={categoryComplete.ooo? "disable-challenge" : ''}>
+          <li className={categoryComplete.ooo ? "disable-challenge" : ""}>
             <Link to="/ooo">Odd one out</Link>
           </li>
         </ul>
-        <p>Complete all questions to get on the Leaderboard!</p>
+        <p>
+          {categoryComplete.allFinished
+            ? "All challenges completed! Thanks for playing."
+            : "Complete all challenges to get on the Leaderboard!"}
+        </p>
       </div>
       <Leaderboard />
     </div>

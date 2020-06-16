@@ -8,6 +8,8 @@ import ChallengeScreen from "./components/ChallengeScreen";
 import HomeScreen from "./components/HomeScreen";
 import QuestionScreen from "./components/questions/QuestionScreen";
 
+import LoadingScreen from "./components/LoadingScreen"
+
 function App() {
   const [isLoggedIn, setisLoggedIn] = useState(null);
 
@@ -18,7 +20,7 @@ function App() {
   });
 
   if (isLoggedIn === null) {
-    return <div>Loading...</div>;
+    return <LoadingScreen/>;
   } else {
     return (
       <Router>
@@ -56,6 +58,7 @@ function App() {
             <QuestionScreen category="ooo" isBuzzerType={true} />
           )}
         />
+        <Route exact path="/loading" render={(props)=>(<LoadingScreen/>)}/>
       </Router>
     );
   }
