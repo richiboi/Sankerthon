@@ -23,7 +23,7 @@ export default function QuestionScreen({ category, isBuzzerType }) {
   const [startTime, setStartTime] = useState(new Date().getTime());
   const [score, setScore] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
-  const [maxTime] = useState(1600);
+  const [maxTime] = useState(60);
   const [timeCounter, setTimeCounter] = useState(100);
 
   //Hook to load questions from database, and get uid. Sets loaded to true
