@@ -39,14 +39,14 @@ function App() {
           exact
           path="/buzzer"
           render={(props) => (
-            <QuestionScreen category="buzzer" isBuzzer={true} />
+            <QuestionScreen category="buzzer" isBuzzerType={true} />
           )}
         />
         <Route
           exact
           path="/quiz"
           render={(props) => (
-            <QuestionScreen category="quiz" isBuzzer={false} />
+            <QuestionScreen category="quiz" isBuzzerType={false} />
           )}
         />
       </Router>

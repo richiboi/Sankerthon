@@ -3,7 +3,7 @@ import { QuestionContext } from "./QuestionContext";
 import styles from "./../../QuestionScreen.module.css";
 
 export default function QuestionBox({ str }) {
-  const { questionStatus, isQuestionComplete, maxTime, isBuzzer } = useContext(
+  const { questionStatus, isQuestionComplete, maxTime, isBuzzerType } = useContext(
     QuestionContext
   );
 
@@ -41,7 +41,7 @@ export default function QuestionBox({ str }) {
       </div>
     );
   } else {
-    const background = isBuzzer
+    const background = isBuzzerType
       ? "linear-gradient(267.93deg, #38b3da 0.17%, #5f42d6 99.86%)"
       : "linear-gradient(264.07deg, #EB6B35 0%, #B7D210 100%)";
 

@@ -14,7 +14,7 @@ import { QuestionContext } from "./QuestionContext";
 
 const db = firebase.firestore();
 
-export default function QuestionScreen({ category, isBuzzer }) {
+export default function QuestionScreen({ category, isBuzzerType }) {
   const [questions, setQuestions] = useState([]);
   const [questionStatus, setQuestionStatus] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -36,7 +36,7 @@ export default function QuestionScreen({ category, isBuzzer }) {
         .get();
       setQuestions(
         questionSnapshot.docs.map((doc) => {
-          if (isBuzzer) {
+          if (isBuzzerType) {
             let question = {
               ...doc.data(),
               correctAnswer: doc.data().answers[0],
@@ -69,9 +69,9 @@ export default function QuestionScreen({ category, isBuzzer }) {
   };
 
   const selectAnswer = (answer) => {
-    const isCorrect = isBuzzer
+    const isCorrect = isBuzzerType
       ? answer === questions[currIndex].correctAnswer
-      : questions[currIndex].answers.includes(answer);
+      : isQuizAnswerCorrect(questions[currIndex].answers, answer);
 
     const timeTaken = new Date().getTime() - startTime;
     const newScore = isCorrect ? calculateScore(timeTaken) : 0;
@@ -89,6 +89,14 @@ export default function QuestionScreen({ category, isBuzzer }) {
     ]);
     setScore(score + newScore);
     setIsQuestionComplete(true);
+  };
+
+  //Removes spaces and makes it case insensitive to make sure similar answers are correct
+  const isQuizAnswerCorrect = (list, answer) => {
+    let moddedList = list.map((item) => item.replace(" ", "").toUpperCase());
+    let moddedAnswer = answer.replace(" ", "").toUpperCase();
+
+    return moddedList.includes(moddedAnswer);
   };
 
   const calculateScore = (time) => {
@@ -154,11 +162,11 @@ export default function QuestionScreen({ category, isBuzzer }) {
           setScore,
           selectAnswer,
           maxTime,
-          isBuzzer,
+          isBuzzerType,
         }}
       >
         <h1 className={styles.roundHeader}>
-          {isBuzzer ? "Buzzer Round" : "Quiz Round"}
+          {isBuzzerType ? "Buzzer Round" : "Quiz Round"}
         </h1>
         <ScoreCounter />
         <Timer />
@@ -166,7 +174,7 @@ export default function QuestionScreen({ category, isBuzzer }) {
         <div className={styles.qnaContainer}>
           <QuestionBox str={questions[currIndex].html_str} />
 
-          {isBuzzer ? (
+          {isBuzzerType ? (
             <AnswerBoxGrid answers={questions[currIndex].answers} />
           ) : (
             <QuizInput />
@@ -185,7 +193,7 @@ export default function QuestionScreen({ category, isBuzzer }) {
         <img
           src={shapesImg}
           className={styles.shapes}
-          style={{ filter: `hue-rotate(${isBuzzer ? "0" : "-120deg"})` }}
+          style={{ filter: `hue-rotate(${isBuzzerType ? "0" : "-120deg"})` }}
         />
       </QuestionContext.Provider>
     );
