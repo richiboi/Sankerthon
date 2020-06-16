@@ -3,7 +3,7 @@ import { QuestionContext } from "./QuestionContext";
 import styles from "./../../QuestionScreen.module.css";
 
 export default function QuestionBox({ str }) {
-  const { questionStatus, isQuestionComplete, maxTime, isBuzzerType } = useContext(
+  const { questionStatus, isQuestionComplete, maxTime, category } = useContext(
     QuestionContext
   );
 
@@ -41,13 +41,15 @@ export default function QuestionBox({ str }) {
       </div>
     );
   } else {
-    const background = isBuzzerType
-      ? "linear-gradient(267.93deg, #38b3da 0.17%, #5f42d6 99.86%)"
-      : "linear-gradient(264.07deg, #EB6B35 0%, #B7D210 100%)";
+    const backgrounds = {
+      buzzer: "linear-gradient(267.93deg, #38b3da 0.17%, #5f42d6 99.86%)",
+      quiz: "linear-gradient(264.07deg, #EB6B35 0%, #B7D210 100%)",
+      ooo: "linear-gradient(267.61deg, #9338DA 0.17%, #D64242 99.86%)"
+    }
 
     return (
-      <div style={{background}} className={styles.questionContainer}>
-        <h3>{str}</h3>
+      <div style={{background: backgrounds[category]}} className={styles.questionContainer}>
+        <h3>{category === 'ooo'? "Which one is the odd one out?" : str}</h3>
       </div>
     );
   }

@@ -128,6 +128,18 @@ export default function QuestionScreen({ category, isBuzzerType }) {
     setIsUploading(false);
   };
 
+  const shapeHueRotates = {
+    buzzer: '0',
+    quiz: '-120deg',
+    ooo: '110deg'
+  }
+
+  const roundHeaders = {
+    buzzer: "Buzzer Round",
+    quiz: 'Quiz Round',
+    ooo: "Odd One Out Round"
+  }
+
   if (!isLoaded) {
     return (
       <div className={styles.loadContainer}>
@@ -163,10 +175,11 @@ export default function QuestionScreen({ category, isBuzzerType }) {
           selectAnswer,
           maxTime,
           isBuzzerType,
+          category
         }}
       >
         <h1 className={styles.roundHeader}>
-          {isBuzzerType ? "Buzzer Round" : "Quiz Round"}
+          {roundHeaders[category]}
         </h1>
         <ScoreCounter />
         <Timer />
@@ -193,7 +206,7 @@ export default function QuestionScreen({ category, isBuzzerType }) {
         <img
           src={shapesImg}
           className={styles.shapes}
-          style={{ filter: `hue-rotate(${isBuzzerType ? "0" : "-120deg"})` }}
+          style={{ filter: `hue-rotate(${shapeHueRotates[category]})` }}
         />
       </QuestionContext.Provider>
     );

@@ -213,7 +213,13 @@ h4 {
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   gap: 1em;
-  margin-top: 2em;
+  margin: 2em 0 0 0;
+}
+
+.answerGrid.ooo {
+  grid-template-columns: 1fr 1fr;
+  margin: 2em 4em 0 4em;
+  gap: 1.8em 3.5em;
 }
 
 .answerBox {
@@ -234,9 +240,18 @@ h4 {
   transition: all 1s ease-in-out;
 }
 
+.answerBox.ooo {
+  padding: 1.3em 1.4em;
+}
+
 .answerBox:hover {
   background-color: #adcbee;
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.answerBox.ooo:hover {
+  background-color: #F8E3F3;
 }
 
 /* Input things */
