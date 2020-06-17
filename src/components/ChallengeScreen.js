@@ -3,7 +3,7 @@ import firebase from "./../firebase";
 import { Link } from "react-router-dom";
 import "./../ChallengeScreen.css";
 import Leaderboard from "./leaderboard/Leaderboard";
-import LoadingScreen from "./LoadingScreen"
+import LoadingScreen from "./LoadingScreen";
 
 const db = firebase.firestore();
 
@@ -16,24 +16,31 @@ export default function ChallengeScreen() {
   }, []);
 
   const getCategoryStatus = async () => {
-    const uid = firebase.auth().currentUser.uid;
-    let userDataDoc = await db.doc(`/Users/${uid}`).get();
-    let categoryScores = userDataDoc.data().category_scores;
+    try {
+      const uid = firebase.auth().currentUser.uid;
+      let userDataDoc = await db.doc(`/Users/${uid}`).get();
+      let categoryScores = userDataDoc.data().category_scores;
 
-    for (const category in categoryScores) {
-      if (categoryScores.hasOwnProperty(category)) {
-        categoryScores[category] = categoryScores[category] !== null;
+      for (const category in categoryScores) {
+        if (categoryScores.hasOwnProperty(category)) {
+          categoryScores[category] = categoryScores[category] !== null;
+        }
       }
-    }
-    categoryScores.allFinished = userDataDoc.data().total_score !== null;
-    console.log(categoryScores);
+      categoryScores.allFinished = userDataDoc.data().total_score !== null;
+      console.log(categoryScores);
 
-    setCategoryComplete(categoryScores);
-    setIsLoading(false);
+      setCategoryComplete(categoryScores);
+      setIsLoading(false);
+    } catch {
+      console.log('needs a rerun')
+      setTimeout(() => {
+        getCategoryStatus()
+      }, 1500);
+    }
   };
 
   if (isLoading) {
-    return <LoadingScreen/>
+    return <LoadingScreen />;
   }
 
   return (

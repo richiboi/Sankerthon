@@ -41,7 +41,7 @@ export default function Leaderboard() {
             </div>
             <div className={styles.playerList}>
               {playerList.slice(3).map((player) => {
-                return <LeaderListItem player={player} />;
+                return <LeaderListItem player={player} key={player.name}/>;
               })}
             </div>
           </React.Fragment>
@@ -49,7 +49,7 @@ export default function Leaderboard() {
         {playerList.length > 0 && playerList.length <= 3 && (
           <div className={styles.playerList}>
             {playerList.map((player) => {
-              return <LeaderListItem player={player} />;
+              return <LeaderListItem player={player} key={player.name} />;
             })}
           </div>
         )}
