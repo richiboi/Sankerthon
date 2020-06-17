@@ -9,7 +9,7 @@ import QuizInput from "./QuizInput";
 import Timer from "./Timer";
 
 import LoadingScreen from "./../LoadingScreen";
-import ToChallengeButton from "./../ToChallengeButton"
+import ToChallengeButton from "./../ToChallengeButton";
 
 import shapesImg from "./../../img/bgshapes.svg";
 
@@ -79,7 +79,8 @@ export default function QuestionScreen({ category, isBuzzerType }) {
     console.log(currIndex);
     //If complete
     if (currIndex + 1 >= questions.length) {
-      uploadQuestionStatus();
+      console.log(questionStatus);
+      //uploadQuestionStatus();
     }
   };
 
@@ -159,20 +160,31 @@ export default function QuestionScreen({ category, isBuzzerType }) {
     return <LoadingScreen />;
   } else if (currIndex === questions.length) {
     return (
-      <div>
-        {isUploading ? (
-          <h1>Uploading...</h1>
-        ) : (
-          <h1>Thanks for competing in the Sankerthon!</h1>
-        )}
-      </div>
+      <QuestionContext.Provider
+        value={{ currIndex, score, questions, category }}
+      >
+        {" "}
+        <div className={styles.qnaContainer}>
+          <h1 className={`${styles.roundHeader} ${styles.center}`}>
+            {roundHeaders[category]}
+          </h1>
+          <QuestionBox str="" />
+          <ToChallengeButton />
+        </div>
+        <img
+          src={shapesImg}
+          className={styles.shapes}
+          style={{ filter: `hue-rotate(${shapeHueRotates[category]})` }}
+        />
+      </QuestionContext.Provider>
     );
   } else if (hasPlayed) {
     return (
       <div className="whole-screen-container">
         <h1>This round has already been played</h1>
-        <ToChallengeButton/>
+        <ToChallengeButton />
       </div>
+      
     );
   } else {
     return (

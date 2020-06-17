@@ -11,26 +11,6 @@
   outline: none;
 }
 
-/* Needs a rework */
-.loadContainer {
-  width: 80%;
-  height: 80%;
-  top: 10%;
-  left: 10%;
-  background-color: rgb(235, 215, 132);
-  text-align: center;
-  vertical-align: middle;
-  display: flex;
-  position: fixed;
-  z-index: 7;
-}
-
-.loadContainer h1 {
-  margin: auto;
-  font-weight: normal;
-  font-size: 3em;
-}
-
 .roundHeader {
   font-weight: 900;
   position: absolute;
@@ -38,6 +18,14 @@
   top: 60px;
   left: 80px;
   font-family: Montserrat;
+}
+
+.roundHeader.center {
+  position: relative;
+  top: 0px;
+  left: 0px;
+  margin-bottom: 1em;
+  text-align: center;
 }
 
 .scoreContainer {
@@ -71,6 +59,7 @@
   display: flex;
   flex-direction: column;
   align-content: center;
+  justify-content: center;
 }
 
 .questionContainer {
@@ -95,6 +84,10 @@
 h3,
 h4 {
   color: white;
+}
+
+.questionContainer p {
+  font-size: 1.5em;
 }
 
 .questionContainer h3 {
@@ -251,7 +244,7 @@ h4 {
 }
 
 .answerBox.ooo:hover {
-  background-color: #F8E3F3;
+  background-color: #f8e3f3;
 }
 
 /* Input things */
@@ -276,13 +269,13 @@ h4 {
   text-align: center;
 
   background: #ffffff;
-  border: 5px solid #B6B6B6;
+  border: 5px solid #b6b6b6;
   border-radius: 15px;
   /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
 }
 
 .answerInput::placeholder {
-  color: #B6B6B6;
+  color: #b6b6b6;
 }
 
 .answerInput:focus {
@@ -320,4 +313,3 @@ h4 {
   border-color: #a4a4a4;
   pointer-events: none;
 }
-

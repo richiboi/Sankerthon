@@ -3,14 +3,30 @@ import { QuestionContext } from "./QuestionContext";
 import styles from "./../../QuestionScreen.module.css";
 
 export default function QuestionBox({ str }) {
-  const { questionStatus, isQuestionComplete, maxTime, category } = useContext(
-    QuestionContext
-  );
+  const context = useContext(QuestionContext)
+  console.log(context)
+
+  const {
+    questionStatus,
+    isQuestionComplete,
+    maxTime,
+    category,
+    score,
+    currIndex,
+    questions,
+  } = useContext(QuestionContext);
 
   const msgs = {
     correct: ["You go!", "Great job!", "Ms. Sanker's proud!", "How Sankerful!"],
     wrong: ["Almost....", "So close!", "Yikes!", "Did you even try ;/"],
     timeUp: ["Time's up!", "Better hurry next time!"],
+    finish: ["Well done!", "Great job!", "Thanks for playing!"],
+  };
+
+  const backgrounds = {
+    buzzer: "linear-gradient(267.93deg, #38b3da 0.17%, #5f42d6 99.86%)",
+    quiz: "linear-gradient(264.07deg, #EB6B35 0%, #B7D210 100%)",
+    ooo: "linear-gradient(267.61deg, #9338DA 0.17%, #D64242 99.86%)",
   };
 
   const pickRandom = (list) => {
@@ -40,16 +56,23 @@ export default function QuestionBox({ str }) {
         </h1>
       </div>
     );
-  } else {
-    const backgrounds = {
-      buzzer: "linear-gradient(267.93deg, #38b3da 0.17%, #5f42d6 99.86%)",
-      quiz: "linear-gradient(264.07deg, #EB6B35 0%, #B7D210 100%)",
-      ooo: "linear-gradient(267.61deg, #9338DA 0.17%, #D64242 99.86%)"
-    }
-
+  } else if (currIndex === questions.length) {
     return (
-      <div style={{background: backgrounds[category]}} className={styles.questionContainer}>
-        <h3>{category === 'ooo'? "Which one is the odd one out?" : str}</h3>
+      <div
+        style={{ background: backgrounds[category] }}
+        className={styles.questionContainer}
+      >
+        <p style={{color: "white"}}>{pickRandom(msgs.finish)}</p>
+        <h1>{score}</h1>
+      </div>
+    );
+  } else {
+    return (
+      <div
+        style={{ background: backgrounds[category] }}
+        className={styles.questionContainer}
+      >
+        <h3>{category === "ooo" ? "Which one is the odd one out?" : str}</h3>
       </div>
     );
   }
