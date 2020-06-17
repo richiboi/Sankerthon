@@ -7,7 +7,9 @@ import QuestionBox from "./QuestionBox";
 import AnswerBoxGrid from "./AnswerBoxGrid";
 import QuizInput from "./QuizInput";
 import Timer from "./Timer";
-import LoadingScreen from "./../LoadingScreen"
+
+import LoadingScreen from "./../LoadingScreen";
+import ToChallengeButton from "./../ToChallengeButton"
 
 import shapesImg from "./../../img/bgshapes.svg";
 
@@ -18,14 +20,17 @@ const db = firebase.firestore();
 export default function QuestionScreen({ category, isBuzzerType }) {
   const [questions, setQuestions] = useState([]);
   const [questionStatus, setQuestionStatus] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [currIndex, setCurrIndex] = useState(0);
-  const [isQuestionComplete, setIsQuestionComplete] = useState(false);
-  const [startTime, setStartTime] = useState(new Date().getTime());
-  const [score, setScore] = useState(0);
+
+  const [isLoaded, setIsLoaded] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [isQuestionComplete, setIsQuestionComplete] = useState(false);
+  const [hasPlayed, setHasPlayed] = useState(false);
+
+  const [startTime, setStartTime] = useState(new Date().getTime());
   const [maxTime] = useState(60);
   const [timeCounter, setTimeCounter] = useState(100);
+  const [score, setScore] = useState(0);
 
   //Hook to load questions from database, and get uid. Sets loaded to true
   useEffect(() => {
@@ -49,6 +54,15 @@ export default function QuestionScreen({ category, isBuzzerType }) {
           }
         })
       );
+
+      //Make sure it hasn't been played
+      const uid = firebase.auth().currentUser.uid;
+      let userDataDoc = await db.doc(`/Users/${uid}`).get();
+      let categoryScores = userDataDoc.data().category_scores;
+
+      if (categoryScores[category] !== null) {
+        setHasPlayed(true);
+      }
 
       //Set loaded and the maxTime counter
       setIsLoaded(true);
@@ -130,21 +144,19 @@ export default function QuestionScreen({ category, isBuzzerType }) {
   };
 
   const shapeHueRotates = {
-    buzzer: '0',
-    quiz: '-120deg',
-    ooo: '110deg'
-  }
+    buzzer: "0",
+    quiz: "-120deg",
+    ooo: "110deg",
+  };
 
   const roundHeaders = {
     buzzer: "Buzzer Round",
-    quiz: 'Quiz Round',
-    ooo: "Odd One Out Round"
-  }
+    quiz: "Quiz Round",
+    ooo: "Odd One Out Round",
+  };
 
   if (!isLoaded) {
-    return (
-      <LoadingScreen />
-    );
+    return <LoadingScreen />;
   } else if (currIndex === questions.length) {
     return (
       <div>
@@ -153,6 +165,13 @@ export default function QuestionScreen({ category, isBuzzerType }) {
         ) : (
           <h1>Thanks for competing in the Sankerthon!</h1>
         )}
+      </div>
+    );
+  } else if (hasPlayed) {
+    return (
+      <div className="whole-screen-container">
+        <h1>This round has already been played</h1>
+        
       </div>
     );
   } else {
@@ -174,12 +193,10 @@ export default function QuestionScreen({ category, isBuzzerType }) {
           selectAnswer,
           maxTime,
           isBuzzerType,
-          category
+          category,
         }}
       >
-        <h1 className={styles.roundHeader}>
-          {roundHeaders[category]}
-        </h1>
+        <h1 className={styles.roundHeader}>{roundHeaders[category]}</h1>
         <ScoreCounter />
         <Timer />
 
