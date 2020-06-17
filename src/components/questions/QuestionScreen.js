@@ -171,7 +171,7 @@ export default function QuestionScreen({ category, isBuzzerType }) {
     return (
       <div className="whole-screen-container">
         <h1>This round has already been played</h1>
-        
+        <ToChallengeButton/>
       </div>
     );
   } else {
