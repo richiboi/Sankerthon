@@ -32,7 +32,7 @@ export default function QuestionScreen({ category, isBuzzerType }) {
   const [timeCounter, setTimeCounter] = useState(100);
   const [score, setScore] = useState(0);
 
-  //Hook to load questions from database, and get uid. Sets loaded to true
+  //Hook to load questions from database and get uid. Sets loaded to true
   useEffect(() => {
     (async () => {
       //Get questions
@@ -80,7 +80,7 @@ export default function QuestionScreen({ category, isBuzzerType }) {
     //If complete
     if (currIndex + 1 >= questions.length) {
       console.log(questionStatus);
-      //uploadQuestionStatus();
+      uploadQuestionStatus();
     }
   };
 

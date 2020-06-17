@@ -28,27 +28,31 @@ export default function Leaderboard() {
         <p>Loading...</p>
       </div>
     );
-  } else if (playerList.length <= 3) {
+  }  else {
     return (
       <div className={styles.leaderboardWrapper}>
-        <h1>Leaderboard</h1>
-        <p>Leaderboard empty!</p>
-      </div>
-    );
-  } else {
-    return (
-      <div className={styles.leaderboardWrapper}>
-        <h1>Leaderboard</h1>
-        <div className={styles.top3}>
-          <TopCell player={playerList[1]} />
-          <TopCell player={playerList[0]} />
-          <TopCell player={playerList[2]} />
-        </div>
-        <div className={styles.playerList}>
-          {playerList.slice(3).map((player) => {
-            return <LeaderListItem player={player} />;
-          })}
-        </div>
+        <h1 style = {{marginBottom: "1em"}}>Leaderboard</h1>
+        {playerList.length > 3 && (
+          <React.Fragment>
+            <div className={styles.top3}>
+              <TopCell player={playerList[1]} />
+              <TopCell player={playerList[0]} />
+              <TopCell player={playerList[2]} />
+            </div>
+            <div className={styles.playerList}>
+              {playerList.slice(3).map((player) => {
+                return <LeaderListItem player={player} />;
+              })}
+            </div>
+          </React.Fragment>
+        )}
+        {playerList.length > 0 && playerList.length <= 3 && (
+          <div className={styles.playerList}>
+            {playerList.map((player) => {
+              return <LeaderListItem player={player} />;
+            })}
+          </div>
+        )}
       </div>
     );
   }
