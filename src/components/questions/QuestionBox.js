@@ -22,7 +22,7 @@ export default function QuestionBox({ str }) {
 
   const backgrounds = {
     buzzer: "linear-gradient(267.93deg, #38b3da 0.17%, #5f42d6 99.86%)",
-    quiz: "linear-gradient(264.07deg, #EB6B35 0%, #B7D210 100%)",
+    quiz: "linear-gradient(264.07deg, #EB5635 0%, #D2CB10 100%)",
     ooo: "linear-gradient(267.61deg, #9338DA 0.17%, #D64242 99.86%)",
   };
 

@@ -154,7 +154,7 @@ export default function QuestionScreen({ category, isBuzzerType }) {
 
   const shapeHueRotates = {
     buzzer: "0",
-    quiz: "-120deg",
+    quiz: "-130deg",
     ooo: "110deg",
   };
 
