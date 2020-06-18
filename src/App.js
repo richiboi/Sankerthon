@@ -8,19 +8,31 @@ import ChallengeScreen from "./components/ChallengeScreen";
 import HomeScreen from "./components/HomeScreen";
 import QuestionScreen from "./components/questions/QuestionScreen";
 
-import LoadingScreen from "./components/LoadingScreen"
+import LoadingScreen from "./components/LoadingScreen";
 
 function App() {
   const [isLoggedIn, setisLoggedIn] = useState(null);
+  const [isAuthorized, setIsAuthorized] = useState(false);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       setisLoggedIn(!!user);
+      if (user !== null) {
+        if (/@rchk.edu.hk/.test(user.email)) {
+          setIsAuthorized(true);
+        }
+      }
     });
   });
 
   if (isLoggedIn === null) {
-    return <LoadingScreen/>;
+    return <LoadingScreen />;
+  } else if (isLoggedIn && !isAuthorized) {
+    return (
+      <div className="whole-screen-container">
+        <h1>Not authorized. Please use an RCHK email</h1>
+      </div>
+    );
   } else {
     return (
       <Router>
@@ -58,7 +70,7 @@ function App() {
             <QuestionScreen category="ooo" isBuzzerType={true} />
           )}
         />
-        <Route exact path="/loading" render={(props)=>(<LoadingScreen/>)}/>
+        <Route exact path="/loading" render={(props) => <LoadingScreen />} />
       </Router>
     );
   }
