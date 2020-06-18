@@ -3,9 +3,6 @@ import { QuestionContext } from "./QuestionContext";
 import styles from "./../../QuestionScreen.module.css";
 
 export default function QuestionBox({ str }) {
-  const context = useContext(QuestionContext)
-  console.log(context)
-
   const {
     questionStatus,
     isQuestionComplete,

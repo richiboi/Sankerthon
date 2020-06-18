@@ -26,6 +26,7 @@ export default function QuestionScreen({ category, isBuzzerType }) {
   const [isUploading, setIsUploading] = useState(false);
   const [isQuestionComplete, setIsQuestionComplete] = useState(false);
   const [hasPlayed, setHasPlayed] = useState(false);
+  const [disableNextButton, setDisableNextButton] = useState(false);
 
   const [startTime, setStartTime] = useState(new Date().getTime());
   const [maxTime] = useState(60);
@@ -39,6 +40,7 @@ export default function QuestionScreen({ category, isBuzzerType }) {
       const questionSnapshot = await db
         .collection("Questions")
         .where("category", "==", category)
+        .orderBy('question_num', 'asc')
         .get();
       setQuestions(
         questionSnapshot.docs.map((doc) => {
@@ -71,6 +73,11 @@ export default function QuestionScreen({ category, isBuzzerType }) {
   }, []);
 
   const nextQuestion = () => {
+    if (disableNextButton) {
+      return;
+    }
+
+    setDisableNextButton(true);
     setIsQuestionComplete(false);
     setCurrIndex(currIndex + 1);
     setTimeCounter(maxTime);
@@ -105,6 +112,7 @@ export default function QuestionScreen({ category, isBuzzerType }) {
     ]);
     setScore(score + newScore);
     setIsQuestionComplete(true);
+    setDisableNextButton(false);
   };
 
   //Removes spaces and makes it case insensitive to make sure similar answers are correct
@@ -184,7 +192,6 @@ export default function QuestionScreen({ category, isBuzzerType }) {
         <h1>This round has already been played</h1>
         <ToChallengeButton />
       </div>
-      
     );
   } else {
     return (
@@ -216,7 +223,10 @@ export default function QuestionScreen({ category, isBuzzerType }) {
           <QuestionBox str={questions[currIndex].html_str} />
 
           {isBuzzerType ? (
-            <AnswerBoxGrid answers={questions[currIndex].answers} />
+            <AnswerBoxGrid
+              answers={questions[currIndex].answers}
+              questionNum={questions[currIndex].question_num}
+            />
           ) : (
             <QuizInput />
           )}
