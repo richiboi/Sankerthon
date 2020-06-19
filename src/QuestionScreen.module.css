@@ -12,12 +12,20 @@
 }
 
 .roundHeader {
-  font-weight: 900;
   position: absolute;
-  font-size: 2em;
   top: 60px;
   left: 80px;
+}
+
+.roundHeader h1 {
+  font-weight: 900;
+  font-size: 2em;
   font-family: Montserrat;
+}
+
+.roundHeader p {
+  font-weight: 300;
+  font-size: 1.2em;
 }
 
 .roundHeader.center {
@@ -66,7 +74,7 @@
   text-align: center;
   overflow: hidden;
 
-  padding: 1em;
+  padding: 1em 2em;
   min-height: 17vh;
 
   display: flex;

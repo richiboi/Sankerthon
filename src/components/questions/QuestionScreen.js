@@ -23,7 +23,7 @@ export default function QuestionScreen({ category, isBuzzerType }) {
   const [currIndex, setCurrIndex] = useState(0);
 
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false); // Needs a fix
   const [isQuestionComplete, setIsQuestionComplete] = useState(false);
   const [hasPlayed, setHasPlayed] = useState(false);
   const [disableNextButton, setDisableNextButton] = useState(false);
@@ -40,7 +40,7 @@ export default function QuestionScreen({ category, isBuzzerType }) {
       const questionSnapshot = await db
         .collection("Questions")
         .where("category", "==", category)
-        .orderBy('question_num', 'asc')
+        .orderBy("question_num", "asc")
         .get();
       setQuestions(
         questionSnapshot.docs.map((doc) => {
@@ -56,6 +56,19 @@ export default function QuestionScreen({ category, isBuzzerType }) {
           }
         })
       );
+
+      let localQuestionStatus = JSON.parse(
+        localStorage.getItem(`${category}_questionStatus`)
+      );
+      if (localQuestionStatus !== null) {
+        let newScore = localQuestionStatus.reduce(
+          (acc, curr) => acc + curr.score,
+          0
+        );
+        setScore(newScore);
+        setQuestionStatus(localQuestionStatus);
+        setCurrIndex(localQuestionStatus.length);
+      }
 
       //Make sure it hasn't been played
       const uid = firebase.auth().currentUser.uid;
@@ -99,7 +112,7 @@ export default function QuestionScreen({ category, isBuzzerType }) {
     const timeTaken = new Date().getTime() - startTime;
     const newScore = isCorrect ? calculateScore(timeTaken) : 0;
 
-    setQuestionStatus([
+    let newQuestionStatus = [
       ...questionStatus,
       {
         correct: isCorrect,
@@ -109,7 +122,10 @@ export default function QuestionScreen({ category, isBuzzerType }) {
         category,
         question_num: questions[currIndex].question_num,
       },
-    ]);
+    ];
+    setQuestionStatus(newQuestionStatus);
+    localStorage.setItem(`${category}_questionStatus`, JSON.stringify(newQuestionStatus));
+
     setScore(score + newScore);
     setIsQuestionComplete(true);
     setDisableNextButton(false);
@@ -129,6 +145,9 @@ export default function QuestionScreen({ category, isBuzzerType }) {
 
   const uploadQuestionStatus = async () => {
     setIsUploading(true);
+
+    //Invalidate the local questionstatus
+    localStorage.removeItem(`${category}_questionStatus`);
 
     //Upload the questiondata documents
     const uid = firebase.auth().currentUser.uid;
@@ -215,8 +234,12 @@ export default function QuestionScreen({ category, isBuzzerType }) {
           category,
         }}
       >
-        <h1 className={styles.roundHeader}>{roundHeaders[category]}</h1>
-        <ScoreCounter />
+        <div className={styles.roundHeader}>
+          <h1>{roundHeaders[category]}</h1>
+          <p>{currIndex + 1} / {questions.length}</p>
+        </div>
+
+        <ScoreCounter score={score} />
         <Timer />
 
         <div className={styles.qnaContainer}>

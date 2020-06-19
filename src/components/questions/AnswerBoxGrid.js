@@ -5,8 +5,7 @@ import styles from "./../../QuestionScreen.module.css";
 
 export default function AnswerBoxGrid({ answers, questionNum }) {
   const { category } = useContext(QuestionContext);
-
-  console.log(answers)
+  
   return (
     <div
       className={`${styles.answerGrid} ${category === "ooo" ? styles.ooo : ""}`}
