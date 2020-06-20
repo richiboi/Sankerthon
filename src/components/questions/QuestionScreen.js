@@ -23,12 +23,10 @@ export default function QuestionScreen({ category, isBuzzerType }) {
   const [currIndex, setCurrIndex] = useState(0);
 
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isUploading, setIsUploading] = useState(false); // Needs a fix
   const [isQuestionComplete, setIsQuestionComplete] = useState(false);
   const [hasPlayed, setHasPlayed] = useState(false);
   const [disableNextButton, setDisableNextButton] = useState(false);
 
-  const [startTime, setStartTime] = useState(new Date().getTime());
   const [maxTime] = useState(60);
   const [timeCounter, setTimeCounter] = useState(100);
   const [score, setScore] = useState(0);
@@ -70,6 +68,16 @@ export default function QuestionScreen({ category, isBuzzerType }) {
         setCurrIndex(localQuestionStatus.length);
       }
 
+      if (localStorage.getItem(`${category}_timerRunning`)) {
+        console.log('set')
+        setTimeCounter(localStorage.getItem(`${category}_timeCounter`))
+      }
+      else {
+        setTimeCounter(maxTime);
+      }
+
+      localStorage.setItem(`${category}_timerRunning`, true)
+
       //Make sure it hasn't been played
       const uid = firebase.auth().currentUser.uid;
       let userDataDoc = await db.doc(`/Users/${uid}`).get();
@@ -81,7 +89,6 @@ export default function QuestionScreen({ category, isBuzzerType }) {
 
       //Set loaded and the maxTime counter
       setIsLoaded(true);
-      setTimeCounter(maxTime);
     })();
   }, []);
 
@@ -90,11 +97,12 @@ export default function QuestionScreen({ category, isBuzzerType }) {
       return;
     }
 
+    localStorage.setItem(`${category}_timerRunning`, true)
+
     setDisableNextButton(true);
     setIsQuestionComplete(false);
     setCurrIndex(currIndex + 1);
     setTimeCounter(maxTime);
-    setStartTime(new Date().getTime());
 
     console.log(currIndex);
     //If complete
@@ -105,11 +113,15 @@ export default function QuestionScreen({ category, isBuzzerType }) {
   };
 
   const selectAnswer = (answer) => {
+    if (answer === null) {
+      answer = ''
+    }
+    localStorage.setItem(`${category}_timerRunning`, false)
+
     const isCorrect = isBuzzerType
       ? answer === questions[currIndex].correctAnswer
       : isQuizAnswerCorrect(questions[currIndex].answers, answer);
-
-    const timeTaken = new Date().getTime() - startTime;
+    const timeTaken = timeCounter + Math.random() - 0.5
     const newScore = isCorrect ? calculateScore(timeTaken) : 0;
 
     let newQuestionStatus = [
@@ -144,7 +156,6 @@ export default function QuestionScreen({ category, isBuzzerType }) {
   };
 
   const uploadQuestionStatus = async () => {
-    setIsUploading(true);
 
     //Invalidate the local questionstatus
     localStorage.removeItem(`${category}_questionStatus`);
@@ -167,8 +178,6 @@ export default function QuestionScreen({ category, isBuzzerType }) {
     scoreUpdate[`category_scores.${category}`] = score;
     console.log(scoreUpdate);
     await userRef.update(scoreUpdate);
-
-    setIsUploading(false);
   };
 
   const shapeHueRotates = {
@@ -225,7 +234,6 @@ export default function QuestionScreen({ category, isBuzzerType }) {
           setCurrIndex,
           timeCounter,
           setTimeCounter,
-          startTime,
           score,
           setScore,
           selectAnswer,

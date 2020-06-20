@@ -8,7 +8,8 @@ export default function Timer() {
     setTimeCounter,
     isQuestionComplete,
     selectAnswer,
-    maxTime
+    maxTime,
+    category,
   } = useContext(QuestionContext);
 
   const [strokeDasharray, setStrokeDasharray] = useState("283 283")
@@ -17,12 +18,15 @@ export default function Timer() {
   //Timer logic
   useEffect(() => {
     calculateStrokeDasharray();
+    
+    localStorage.setItem(`${category}_timeCounter`, timeCounter)
+
     changeRingColor();
     if (!isQuestionComplete) {
       const timer =
         !isQuestionComplete &&
         setInterval(() => setTimeCounter(timeCounter - 1), 1000);
-      if (timeCounter === 0) {
+      if (timeCounter <= 0) {
         console.log("times up");
         selectAnswer(null);
       }
@@ -32,7 +36,6 @@ export default function Timer() {
 
   const changeRingColor = () => {
     let timeFrac = timeCounter/maxTime;
-    
     if (timeFrac <= 0.2) {
       setRingColor("#ff0000")
     }
@@ -45,8 +48,12 @@ export default function Timer() {
   }
 
   const calculateStrokeDasharray = () => {
+    console.log(timeCounter)
+    console.log(maxTime)
+    console.log(timeCounter + (timeCounter / maxTime) - 1)
     const strokeLength = 283 * (timeCounter + (timeCounter / maxTime) - 1) / maxTime;
     setStrokeDasharray(`${strokeLength} 283`)
+    console.log(strokeDasharray)
   }
 
   return (
