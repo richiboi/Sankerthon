@@ -27,13 +27,15 @@ function App() {
 
   if (isLoggedIn === null) {
     return <LoadingScreen />;
-  } else if (isLoggedIn && !isAuthorized) {
-    return (
-      <div className="whole-screen-container">
-        <h1>Not authorized. Please use an RCHK email</h1>
-      </div>
-    );
-  } else {
+  }
+  // else if (isLoggedIn && !isAuthorized) {
+  //   return (
+  //     <div className="whole-screen-container">
+  //       <h1>Not authorized. Please use an RCHK email</h1>
+  //     </div>
+  //   );
+  // }
+  else {
     return (
       <Router>
         {isLoggedIn ? null : <Redirect to="/" />}

@@ -26,15 +26,16 @@ export default function QuestionScreen({ category, isBuzzerType }) {
   const [isQuestionComplete, setIsQuestionComplete] = useState(false);
   const [hasPlayed, setHasPlayed] = useState(false);
   const [disableNextButton, setDisableNextButton] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   const [maxTime] = useState(60);
   const [timeCounter, setTimeCounter] = useState(100);
   const [score, setScore] = useState(0);
 
-  //Hook to load questions from database and get uid. Sets loaded to true
+  //load questions from database and get uid. Sets loaded to true
   useEffect(() => {
     (async () => {
-      //Get questions
+      //Get questions and shuffle them in the process
       const questionSnapshot = await db
         .collection("Questions")
         .where("category", "==", category)
@@ -55,6 +56,8 @@ export default function QuestionScreen({ category, isBuzzerType }) {
         })
       );
 
+      //Stuff to do with HTML LocalStorage
+      //Useful if user disconnects midway, as things are saved to the local storage
       let localQuestionStatus = JSON.parse(
         localStorage.getItem(`${category}_questionStatus`)
       );
@@ -69,14 +72,13 @@ export default function QuestionScreen({ category, isBuzzerType }) {
       }
 
       if (localStorage.getItem(`${category}_timerRunning`)) {
-        console.log('set')
-        setTimeCounter(localStorage.getItem(`${category}_timeCounter`))
-      }
-      else {
+        console.log("set");
+        setTimeCounter(localStorage.getItem(`${category}_timeCounter`));
+      } else {
         setTimeCounter(maxTime);
       }
 
-      localStorage.setItem(`${category}_timerRunning`, true)
+      localStorage.setItem(`${category}_timerRunning`, true);
 
       //Make sure it hasn't been played
       const uid = firebase.auth().currentUser.uid;
@@ -97,7 +99,7 @@ export default function QuestionScreen({ category, isBuzzerType }) {
       return;
     }
 
-    localStorage.setItem(`${category}_timerRunning`, true)
+    localStorage.setItem(`${category}_timerRunning`, true);
 
     setDisableNextButton(true);
     setIsQuestionComplete(false);
@@ -114,14 +116,14 @@ export default function QuestionScreen({ category, isBuzzerType }) {
 
   const selectAnswer = (answer) => {
     if (answer === null) {
-      answer = ''
+      answer = "";
     }
-    localStorage.setItem(`${category}_timerRunning`, false)
+    localStorage.setItem(`${category}_timerRunning`, false);
 
     const isCorrect = isBuzzerType
       ? answer === questions[currIndex].correctAnswer
       : isQuizAnswerCorrect(questions[currIndex].answers, answer);
-    const timeTaken = timeCounter + Math.random() - 0.5
+    const timeTaken = timeCounter + Math.random() - 0.5;
     const newScore = isCorrect ? calculateScore(timeTaken) : 0;
 
     let newQuestionStatus = [
@@ -136,7 +138,10 @@ export default function QuestionScreen({ category, isBuzzerType }) {
       },
     ];
     setQuestionStatus(newQuestionStatus);
-    localStorage.setItem(`${category}_questionStatus`, JSON.stringify(newQuestionStatus));
+    localStorage.setItem(
+      `${category}_questionStatus`,
+      JSON.stringify(newQuestionStatus)
+    );
 
     setScore(score + newScore);
     setIsQuestionComplete(true);
@@ -156,7 +161,7 @@ export default function QuestionScreen({ category, isBuzzerType }) {
   };
 
   const uploadQuestionStatus = async () => {
-
+    setIsUploading(true);
     //Invalidate the local questionstatus
     localStorage.removeItem(`${category}_questionStatus`);
 
@@ -178,6 +183,8 @@ export default function QuestionScreen({ category, isBuzzerType }) {
     scoreUpdate[`category_scores.${category}`] = score;
     console.log(scoreUpdate);
     await userRef.update(scoreUpdate);
+
+    setIsUploading(false);
   };
 
   const shapeHueRotates = {
@@ -194,6 +201,8 @@ export default function QuestionScreen({ category, isBuzzerType }) {
 
   if (!isLoaded) {
     return <LoadingScreen />;
+  } else if (isUploading) {
+    return <h1>Uploading...</h1>;
   } else if (currIndex === questions.length) {
     return (
       <QuestionContext.Provider
@@ -244,7 +253,9 @@ export default function QuestionScreen({ category, isBuzzerType }) {
       >
         <div className={styles.roundHeader}>
           <h1>{roundHeaders[category]}</h1>
-          <p>{currIndex + 1} / {questions.length}</p>
+          <p>
+            {currIndex + 1} / {questions.length}
+          </p>
         </div>
 
         <ScoreCounter score={score} />

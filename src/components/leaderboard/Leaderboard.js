@@ -53,6 +53,7 @@ export default function Leaderboard() {
             })}
           </div>
         )}
+        {playerList.length === 0 && <p>Be the first on the Leaderboard!</p>}
       </div>
     );
   }
