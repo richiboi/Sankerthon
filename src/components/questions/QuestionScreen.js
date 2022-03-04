@@ -61,6 +61,7 @@ export default function QuestionScreen({ category, isBuzzerType }) {
       let localQuestionStatus = JSON.parse(
         localStorage.getItem(`${category}_questionStatus`)
       );
+      
       if (localQuestionStatus !== null) {
         let newScore = localQuestionStatus.reduce(
           (acc, curr) => acc + curr.score,
@@ -204,6 +205,7 @@ export default function QuestionScreen({ category, isBuzzerType }) {
   } else if (isUploading) {
     return <h1>Uploading...</h1>;
   } else if (currIndex === questions.length) {
+    //User has been through all the questions
     return (
       <QuestionContext.Provider
         value={{ currIndex, score, questions, category }}
@@ -231,6 +233,7 @@ export default function QuestionScreen({ category, isBuzzerType }) {
       </div>
     );
   } else {
+    //Standard case of displaying questions
     return (
       <QuestionContext.Provider
         value={{

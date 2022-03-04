@@ -11,12 +11,13 @@ import QuestionScreen from "./components/questions/QuestionScreen";
 import LoadingScreen from "./components/LoadingScreen";
 
 function App() {
-  const [isLoggedIn, setisLoggedIn] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [isAuthorized, setIsAuthorized] = useState(false);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
-      setisLoggedIn(!!user);
+      setIsLoggedIn(!!user);
+      console.log(user)
       if (user !== null) {
         if (/@rchk.edu.hk/.test(user.email)) {
           setIsAuthorized(true);
@@ -36,6 +37,7 @@ function App() {
   //   );
   // }
   else {
+    console.log('user logged in')
     return (
       <Router>
         {isLoggedIn ? null : <Redirect to="/" />}

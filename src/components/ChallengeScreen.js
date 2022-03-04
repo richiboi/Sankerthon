@@ -42,7 +42,6 @@ export default function ChallengeScreen() {
   if (isLoading) {
     return <LoadingScreen />;
   }
-
   return (
     <div className="challenge-screen-wrapper">
       <div className="challenge-container">
