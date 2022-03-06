@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import firebase from "./../firebase";
 import { Link } from "react-router-dom";
 import "./../ChallengeScreen.css";
 import Leaderboard from "./leaderboard/Leaderboard";
 import LoadingScreen from "./LoadingScreen";
+import { FaGithub } from "react-icons/fa";
 
 const db = firebase.firestore();
 
@@ -11,11 +12,7 @@ export default function ChallengeScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [categoryComplete, setCategoryComplete] = useState({});
 
-  useEffect(() => {
-    getCategoryStatus();
-  }, []);
-
-  const getCategoryStatus = async () => {
+  const getCategoryStatus = useCallback(async () => {
     try {
       const uid = firebase.auth().currentUser.uid;
       let userDataDoc = await db.doc(`/Users/${uid}`).get();
@@ -32,18 +29,28 @@ export default function ChallengeScreen() {
       setCategoryComplete(categoryScores);
       setIsLoading(false);
     } catch {
-      console.log('needs a rerun')
+      console.log("needs a rerun");
       setTimeout(() => {
-        getCategoryStatus()
+        getCategoryStatus();
       }, 1500);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    getCategoryStatus();
+  }, [getCategoryStatus]);
 
   if (isLoading) {
     return <LoadingScreen />;
   }
   return (
     <div className="challenge-screen-wrapper">
+      <a
+        className="github-logo-wrapper"
+        href="https://github.com/richiboi/Sankerthon"
+      >
+        <FaGithub style={{ width: "2.5em", height: "2.5em" }} fill="white" />
+      </a>
       <div className="challenge-container">
         <h4 id="above-sankerthon">Welcome to the</h4>
         <h1 id="sankerthon">Sankerthon</h1>

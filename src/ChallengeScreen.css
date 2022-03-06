@@ -17,13 +17,13 @@
 
 @keyframes gradient {
   0% {
-      background-position: 0% 50%;
+    background-position: 0% 50%;
   }
   50% {
-      background-position: 100% 50%;
+    background-position: 100% 50%;
   }
   100% {
-      background-position: 0% 50%;
+    background-position: 0% 50%;
   }
 }
 
@@ -117,4 +117,8 @@
   color: rgb(170, 170, 170);
   pointer-events: none;
   cursor: default;
+}
+
+.github-logo-wrapper {
+  margin: 1em 0 0 1em;
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import firebase from "firebase";
-import './HomeScreen.css'
+import "./HomeScreen.css";
 
 export default function HomeScreen() {
   const uiConfig = {
