@@ -17,7 +17,7 @@ function App() {
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       setIsLoggedIn(!!user);
-      console.log(user)
+      console.log(user);
       if (user !== null) {
         if (/@rchk.edu.hk/.test(user.email)) {
           setIsAuthorized(true);
@@ -37,7 +37,7 @@ function App() {
   //   );
   // }
   else {
-    console.log('user logged in')
+    console.log("user logged in");
     return (
       <Router>
         {isLoggedIn ? null : <Redirect to="/" />}
